@@ -1,4 +1,5 @@
 from decimal import Decimal
+from uuid import uuid4
 
 from app.domain.states import NutritionSource
 from app.services.food_catalog import FoodCatalog
@@ -22,7 +23,7 @@ def test_catalog_matches_english_and_russian_names():
 def test_calculator_scales_catalog_food_and_keeps_recognized_name():
     calculator = NutritionCalculator(FoodCatalog())
     item = calculator.build_item(
-        __import__("uuid").uuid4(),
+        uuid4(),
         0,
         "Cooked rice",
         Decimal("150"),
@@ -36,7 +37,7 @@ def test_calculator_scales_catalog_food_and_keeps_recognized_name():
 
 def test_unknown_food_is_marked_estimated():
     calculator = NutritionCalculator(FoodCatalog())
-    item = calculator.build_item(__import__("uuid").uuid4(), 0, "Зырькф", Decimal("100"), None)
+    item = calculator.build_item(uuid4(), 0, "Зырькф", Decimal("100"), None)
     assert item.name == "Зырькф"
     assert item.nutrition_source == NutritionSource.ESTIMATED
     assert item.nutrition.calories == Decimal("150.0")

@@ -68,6 +68,7 @@ async def on_photo(message: Message, bot: Bot, state: FSMContext, uow: UnitOfWor
         result = await mark_recognition_failed(uow, draft.id, user.id, "download_failed")
     except Exception:
         logger.exception("photo pipeline failed entry=%s", draft.id)
+        await uow.rollback()
         result = await mark_recognition_failed(uow, draft.id, user.id, "unexpected")
 
     await show_recognition_result(
@@ -121,6 +122,7 @@ async def retry(callback: CallbackQuery, callback_data: EntryCB, bot: Bot, state
         result = await mark_recognition_failed(uow, entry.id, user.id, "download_failed")
     except Exception:
         logger.exception("retry failed entry=%s", entry.id)
+        await uow.rollback()
         result = await mark_recognition_failed(uow, entry.id, user.id, "unexpected")
     await show_recognition_result(
         bot,

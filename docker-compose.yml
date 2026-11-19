@@ -41,5 +41,11 @@ services:
       retries: 3
       start_period: 25s
 
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: 172.30.19.0/24
+
 volumes:
   pgdata:

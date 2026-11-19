@@ -3,17 +3,18 @@ import logging
 
 import httpx
 
-logger = logging.getLogger(__name__)
-
 from app.services.recognition import (
     FoodRecognizer,
     RecognitionInvalid,
     RecognitionTimeout,
     RecognitionUnavailable,
     RecognizedItem,
+    UnconfiguredRecognizer,
     load_json_object,
     parse_recognition_payload,
 )
+
+logger = logging.getLogger(__name__)
 
 SYSTEM_PROMPT = """Ты оцениваешь еду на фотографии для дневника питания.
 Это приблизительная оценка видимой порции, не измерение и не лабораторный анализ.

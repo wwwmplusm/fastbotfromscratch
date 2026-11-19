@@ -9,10 +9,10 @@ WORKDIR /app
 RUN useradd --create-home --uid 10001 appuser
 
 COPY pyproject.toml README.md alembic.ini ./
+RUN mkdir -p app && touch app/__init__.py && pip install --no-cache-dir .
+
 COPY app ./app
 COPY migrations ./migrations
-
-RUN pip install --no-cache-dir .
 
 USER appuser
 
